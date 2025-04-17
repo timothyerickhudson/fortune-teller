@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FORTUNE TELLER</title>
+    <style>
+      @font-face {
+        font-family: "Deansgate"; 
+        src: url("https://uiuxconcepts.com/fonts/DeansgateCondensed-Bold.ttf")
+          format("truetype");
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      body {
+        font-family: "Deansgate";
+      }
+      .my-button {
+        display: inline-block;
+        text-align: center;
+        width: 30.36px;
+        height: 30.36px;
+        font-size: 18px;
+        background-color: transparent;
+        border: 1px solid transparent; /* Add a border for visibility */
+        margin: 6px;
+        font-weight: bold;
+      }
+
+     
+
+/* Desktop-specific hover effect */
+@media (min-width: 768px) {  /* You can adjust 768px to your desired breakpoint */
+  .my-button:hover {
+    transform: scale(1.3); /* Slightly scale the button on hover */
+  }
+}
+    </style>
+  </head>
+  <body>
+    <div>
+
+        <a href="https://timothyerickhudson.github.io/portfolio//"><h3>Back to portfolio</h3></a>
+
+    </div>
+
+    <div id="zoomHere">
+      <div
+        id="toBeHidden1"
+        style="position: absolute; margin-top: 110px; margin-left: 102px"
+      >
+        <button
+          class="my-button"
+          id="button1"
+          onclick="read(constantly.choice1[0], constantly.choice2[0])"
+        >
+          7
+        </button>
+        <button
+          class="my-button"
+          id="button2"
+          onclick="read(constantly.choice1[1], constantly.choice2[1])"
+        >
+          6
+        </button>
+        <br />
+        <button
+          class="my-button"
+          id="button3"
+          onclick="read(constantly.choice1[2], constantly.choice2[2])"
+        >
+          3
+        </button>
+        <button
+          class="my-button"
+          id="button4"
+          onclick="read(constantly.choice1[3], constantly.choice2[3])"
+        >
+          8
+        </button>
+      </div>
+
+      <div style="z-index: -10">
+        <img style="width: 300px; height: 300px" id="testSpot1" />
+      </div>
+    </div>
+    <p style="font-size: 12px; color: gray">
+      TECH:<br />
+      JAVASCRIPT<br />
+      HTML<br />
+      CSS<br />
+      PHOTOSHOP<br />
+    </p>
+  </body>
+
+  <script>
+    let superRate = 0.7;
+
+
+    function zoomIN() {
+      if (window.innerWidth > 768) {
+        
+        document.getElementById("zoomHere").style.zoom = "200%";
+      }
+      else{
+        document.getElementById('toBeHidden1').style.marginLeft = '90px';
+        superRate = 1.2;
+      }
+    }
+
+    let XToYImgs = [
+      "https://uiuxconcepts.com/openx1.png",
+      "https://uiuxconcepts.com/openx2.png",
+      "https://uiuxconcepts.com/close.png",
+      "https://uiuxconcepts.com/openy2.png",
+      "https://uiuxconcepts.com/openy1.png",
+      "https://uiuxconcepts.com/openy.png",
+    ];
+    let YToXImgs = [
+      "https://uiuxconcepts.com/openy1.png",
+      "https://uiuxconcepts.com/openy2.png",
+      "https://uiuxconcepts.com/close.png",
+      "https://uiuxconcepts.com/openx2.png",
+      "https://uiuxconcepts.com/openx1.png",
+      "https://uiuxconcepts.com/openx.png",
+    ];
+    function preloadImages() {
+      XToYImgs.forEach((imageSrc) => {
+        const img = new Image();
+        img.src = imageSrc; // Preload the image by setting its source
+      });
+      YToXImgs.forEach((imageSrc) => {
+        const img = new Image();
+        img.src = imageSrc; // Preload the image by setting its source
+      });
+    }
+
+    // Call the preload function to load the images before switching
+    preloadImages();
+
+    let imgElement1 = document.getElementById("testSpot1");
+
+    function XToY() {
+      let i2 = 0;
+      function changer2() {
+        if (i2 < XToYImgs.length) {
+          imgElement1.src = XToYImgs[i2];
+          i2++; // Increment index to show the next image
+          setTimeout(changer2, 100); // Call updateImage again after 100ms
+        }
+      }
+      changer2();
+    }
+
+    function YToX() {
+      let i3 = 0;
+      function changer3() {
+        if (i3 < YToXImgs.length) {
+          imgElement1.src = YToXImgs[i3];
+          i3++; // Increment index to show the next image
+          setTimeout(changer3, 100); // Call updateImage again after 100ms
+        }
+      }
+      changer3();
+    }
+
+    let currentGif = 0;
+    let destinationGif = 0;
+    let currentPosition = "x";
+
+    function switchGifs(numb) {
+      destinationGif = numb;
+      console.log(currentGif, destinationGif, currentPosition);
+      if (currentPosition == "x") {
+        XToY();
+        currentGif++;
+        setTimeout(() => {
+          switchGifs3();
+        }, 600);
+      } else if (currentPosition == "y") {
+        YToX();
+        currentGif++;
+        setTimeout(() => {
+          switchGifs2();
+        }, 600);
+      }
+    }
+
+    function switchGifs2() {
+      console.log(
+        "we are at sw2" + currentGif,
+        destinationGif,
+        currentPosition
+      );
+      if (destinationGif > currentGif) {
+        XToY();
+        currentGif++;
+        setTimeout(() => {
+          switchGifs3();
+        }, 600);
+      } else {
+        currentGif = 0;
+        destinationGif = 0;
+        currentPosition = "x";
+      }
+    }
+
+    function switchGifs3() {
+      console.log(
+        "we are at sw3" + currentGif,
+        destinationGif,
+        currentPosition
+      );
+
+      if (destinationGif > currentGif) {
+        YToX();
+        currentGif++;
+        setTimeout(() => {
+          switchGifs2();
+        }, 600);
+      } else {
+        currentGif = 0;
+        destinationGif = 0;
+        currentPosition = "y";
+      }
+    }
+  </script>
+
+  <script>
+    window.onload = (event) => {
+      document.getElementById("testSpot1").src =
+        "https://uiuxconcepts.com/openx.png";
+      setButtonNamesToNumbers2();
+      startly();
+      console.log(constantly);
+      zoomIN();
+    };
+
+    let constantly = {};
+
+    function startly() {
+      constantly = dataObject3;
+    }
+    function nextly(thingy) {
+      constantly = thingy;
+    }
+
+    function setButtonNamesToNumbers() {
+      document.getElementById("button1").innerText = "7";
+      document.getElementById("button2").innerText = "6";
+      document.getElementById("button3").innerText = "3";
+      document.getElementById("button4").innerText = "8";
+    }
+
+    function setButtonNamesToNumbers2() {
+      document.getElementById("button1").innerText = "4";
+      document.getElementById("button2").innerText = "9";
+      document.getElementById("button3").innerText = "2";
+      document.getElementById("button4").innerText = "5";
+    }
+
+    let clickNum = 0;
+
+    // Global variable to store the selected voice
+    let selectedVoice = null;
+
+    // Function to load voices and select a specific voice
+    function loadVoices() {
+      const voices = window.speechSynthesis.getVoices();
+
+      
+
+      
+
+      // Make sure voices are loaded and select the desired voice
+      selectedVoice = voices[33]; // You can change this to any voice index
+    }
+    loadVoices();
+
+    // Listen for voices to load
+    speechSynthesis.onvoiceschanged = loadVoices;
+
+    function read(text1, text2) {
+      document.getElementById("toBeHidden1").style.display = "none";
+      switchGifs(text2);
+      setTimeout(() => {
+        read2(text1, text2);
+      }, 100);
+    }
+
+    function read2(text1, text2) {
+      const text = text1;
+      const utterance = new SpeechSynthesisUtterance(text);
+
+      let isReading = true;
+      let b1 = document.getElementById("button1");
+      let b2 = document.getElementById("button2");
+      let b3 = document.getElementById("button3");
+      let b4 = document.getElementById("button4");
+
+      b1.disabled = true;
+      b2.disabled = true;
+      b3.disabled = true;
+      b4.disabled = true;
+
+      utterance.voice = selectedVoice;
+      utterance.rate = superRate;
+      utterance.lang = "en-US";
+      window.speechSynthesis.speak(utterance);
+
+      clickNum = clickNum + 1;
+
+      let superNum = text2;
+
+      let controlla = 0;
+      for (let i = 0; i < text2; i++) {
+        setTimeout(() => {
+          if (constantly.choice3 == "switch3") {
+            setButtonNamesToNumbers();
+            nextly(dataObject2);
+            if (i == text2 - 1) {
+              b1.disabled = false;
+              b2.disabled = false;
+              b3.disabled = false;
+              b4.disabled = false;
+              document.getElementById("toBeHidden1").style.display = "inline";
+            }
+          } else {
+            setButtonNamesToNumbers2();
+            nextly(dataObject3);
+            if (i == text2 - 1) {
+              b1.disabled = false;
+              b2.disabled = false;
+              b3.disabled = false;
+              b4.disabled = false;
+              document.getElementById("toBeHidden1").style.display = "inline";
+            }
+          }
+        }, 600 + 600 * i);
+      }
+    }
+
+    const dataObject2 = {
+      choice1: ["1,2,3,4,5,6,7,", "1,2,3,4,5,6", "1,2,3", "1,2,3,4,5,6,7,8"],
+      choice2: [7, 6, 3, 8],
+      choice3: "switch2",
+    };
+
+    const dataObject3 = {
+      choice1: ["1,2,3,4", "1,2,3,4,5,6,7,8,9", "1,2", "1,2,3,4,5"],
+      choice2: [4, 9, 2, 5],
+      choice3: "switch3",
+    };
+  </script>
+</html>
